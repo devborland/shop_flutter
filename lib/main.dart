@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'MyShop',
         theme: ThemeData(
-            primarySwatch: Colors.deepPurple,
+            primarySwatch: Colors.red,
             primaryColor: ColorGenerator.getColor(),
             accentColor: ColorGenerator.getColor(),
             fontFamily: 'Lato'),
