@@ -10,23 +10,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
+      title: 'MyShop',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.deepPurple,
+          accentColor: Colors.deepOrange,
+          fontFamily: 'Lato'),
       home: ProductsOverviesPage(),
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('MyShop')),
-      body: Center(
-        child: Text('Let\' build a Shoppie'),
-      ),
     );
   }
 }

@@ -16,7 +16,11 @@ class ProductsOverviesPage extends StatelessWidget {
           crossAxisSpacing: 10.0,
           mainAxisSpacing: 10.0,
         ),
-        itemBuilder: (ctx, i) => ProductItem(),
+        itemBuilder: (ctx, i) => ProductItem(
+          id: loadedProducts[i].id,
+          title: loadedProducts[i].title,
+          imageUrl: loadedProducts[i].imageUrl,
+        ),
       ),
     );
   }
