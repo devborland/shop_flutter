@@ -3,6 +3,38 @@ import 'package:flutter/cupertino.dart';
 import 'product.dart';
 
 class Products with ChangeNotifier {
+  // bool _showFavoritesOnly = false;
+
+  List<Product> get items {
+    // if (_showFavoritesOnly) {
+    //   return _items.where((item) => item.isFavorite).toList();
+    // }
+    return [..._items];
+  }
+
+  List<Product> get favoriteItems {
+    return _items.where((item) => item.isFavorite).toList();
+  }
+
+  Product findById(String id) {
+    return _items.firstWhere((prod) => prod.id == id);
+  }
+
+  // void showFavoritesOnly() {
+  //   _showFavoritesOnly = true;
+  //   notifyListeners();
+  // }
+
+  // void showAll() {
+  //   _showFavoritesOnly = false;
+  //   notifyListeners();
+  // }
+
+  void addProduct() {
+    // _items.add(value);
+    notifyListeners();
+  }
+
   List<Product> _items = [
     Product(
       id: 'p1',
@@ -37,15 +69,4 @@ class Products with ChangeNotifier {
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
   ];
-
-  List<Product> get items => [..._items];
-
-  Product findById(String id) {
-    return _items.firstWhere((prod) => prod.id == id);
-  }
-
-  void addProduct() {
-    // _items.add(value);
-    notifyListeners();
-  }
 }

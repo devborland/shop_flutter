@@ -19,8 +19,8 @@ class MyApp extends StatelessWidget {
         title: 'MyShop',
         theme: ThemeData(
             primarySwatch: Colors.red,
-            primaryColor: Color.fromRGBO(80, 80, 150, 1),
-            accentColor: Color.fromRGBO(124, 245, 248, 1),
+            primaryColor: Color.fromRGBO(90, 70, 150, 1),
+            accentColor: Color.fromRGBO(230, 140, 90, 1),
             fontFamily: 'Lato'),
         home: ProductsOverviesPage(),
         routes: {
