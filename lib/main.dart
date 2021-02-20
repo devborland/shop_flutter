@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'pages/product_detail_page.dart';
 import 'pages/products_overview_page.dart';
 import 'providers/products.dart';
-import 'models/color_generator.dart';
 
 void main() {
   runApp(MyApp());
@@ -20,8 +19,8 @@ class MyApp extends StatelessWidget {
         title: 'MyShop',
         theme: ThemeData(
             primarySwatch: Colors.red,
-            primaryColor: ColorGenerator.getColor(),
-            accentColor: ColorGenerator.getColor(),
+            primaryColor: Color.fromRGBO(80, 80, 150, 1),
+            accentColor: Color.fromRGBO(124, 245, 248, 1),
             fontFamily: 'Lato'),
         home: ProductsOverviesPage(),
         routes: {
