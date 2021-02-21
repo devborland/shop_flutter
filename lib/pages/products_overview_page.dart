@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_flutter/providers/cart.dart';
 
+import '../providers/cart.dart';
 import '../widgets/badge.dart';
 import '../widgets/product_grid.dart';
+import 'cart_page.dart';
 
 enum FiltersOptions {
   Favorites,
@@ -52,9 +53,14 @@ class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
             ),
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushNamed(CartPage.routeName);
+              },
             ),
           ),
+          SizedBox(
+            width: 16.0,
+          )
         ],
       ),
       body: ProductsGrid(_showFavoritesOnly),

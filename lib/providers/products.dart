@@ -41,8 +41,7 @@ class Products with ChangeNotifier {
       title: 'Red Shirt',
       description: 'A red shirt - it is pretty red!',
       price: 29.99,
-      imageUrl:
-          'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
+      imageUrl: 'https://rohan.imgix.net/product/05325N68.jpg',
     ),
     Product(
       id: 'p2',
@@ -50,7 +49,7 @@ class Products with ChangeNotifier {
       description: 'A nice pair of trousers.',
       price: 59.99,
       imageUrl:
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
+          'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
     ),
     Product(
       id: 'p3',

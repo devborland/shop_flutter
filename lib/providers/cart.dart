@@ -28,7 +28,7 @@ class Cart with ChangeNotifier {
         () => CartItem(
           id: DateTime.now().toString(),
           price: price,
-          quantity: 2,
+          quantity: 1,
           title: title,
         ),
       );
@@ -38,6 +38,14 @@ class Cart with ChangeNotifier {
 
   int get itemsCount {
     return _items.length;
+  }
+
+  double get totalAmount {
+    var total = 0.0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
+    return total;
   }
 }
 
