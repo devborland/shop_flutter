@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/orders.dart';
+import '../widgets/app_drawer_widget.dart';
 import '../widgets/order_item_widget.dart';
 
 class OrdersPage extends StatelessWidget {
@@ -20,6 +21,7 @@ class OrdersPage extends StatelessWidget {
           return OrderItemWidget(ordersData.orders[i]);
         },
       ),
+      drawer: AppDrawerWidget(),
     );
   }
 }

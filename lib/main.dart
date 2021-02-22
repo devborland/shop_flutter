@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_flutter/pages/cart_page.dart';
-import 'package:shop_flutter/pages/orders_page.dart';
-import 'package:shop_flutter/providers/orders.dart';
+import 'pages/cart_page.dart';
+import 'pages/orders_page.dart';
+import 'providers/orders.dart';
 import 'providers/cart.dart';
 
 import 'pages/product_detail_page.dart';
