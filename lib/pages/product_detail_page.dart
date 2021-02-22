@@ -21,11 +21,40 @@ class ProductDetailPage extends StatelessWidget {
       listen: false,
     ).findById(productId);
 
-    ///...
     return Scaffold(
       appBar: AppBar(title: Text(loadedProduct.title)),
-      body: Center(
-        child: Text(loadedProduct.description),
+      body: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Container(
+              alignment: Alignment.center,
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                loadedProduct.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            SizedBox(height: 10.0),
+            Chip(
+              label: Text(
+                '\$${loadedProduct.price}',
+                style: TextStyle(color: Colors.white, fontSize: 18.0),
+              ),
+              backgroundColor: Theme.of(context).accentColor,
+            ),
+            SizedBox(height: 10.0),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              width: double.infinity,
+              child: Text(
+                loadedProduct.description,
+                textAlign: TextAlign.center,
+                softWrap: true,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
