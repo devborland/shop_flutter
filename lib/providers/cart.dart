@@ -52,6 +52,10 @@ class Cart with ChangeNotifier {
     _items.remove(productId);
     notifyListeners();
   }
+
+  bool itemInCart(String productId) {
+    return _items.containsKey(productId);
+  }
 }
 
 class CartItem {
