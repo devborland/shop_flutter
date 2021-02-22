@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_flutter/pages/orders_page.dart';
 
 import '../providers/cart.dart';
 import '../providers/orders.dart';
@@ -39,11 +40,14 @@ class CartPage extends StatelessWidget {
                   SizedBox(width: 8.0),
                   TextButton(
                     onPressed: () {
-                      Provider.of<Orders>(context, listen: false).addOrder(
-                        cart.items.values.toList(),
-                        cart.totalAmount,
-                      );
-                      cart.clearCart();
+                      if (cart.totalAmount > 0) {
+                        Provider.of<Orders>(context, listen: false).addOrder(
+                          cart.items.values.toList(),
+                          cart.totalAmount,
+                        );
+                        cart.clearCart();
+                      }
+                      Navigator.of(context).pushNamed(OrdersPage.routeName);
                     },
                     child: Text(
                       'Order Now',
