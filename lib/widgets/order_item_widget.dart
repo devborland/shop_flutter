@@ -25,7 +25,8 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           ListTile(
             title: Text('\$${widget.order.amount}'),
             subtitle: Text(
-                DateFormat('dd/MM/yyyy  hh:mm').format(widget.order.dateTime)),
+              DateFormat('dd/MM/yyyy  hh:mm').format(widget.order.dateTime),
+            ),
             trailing: IconButton(
               icon: Icon(_expanded ? Icons.expand_less : Icons.expand_more),
               onPressed: () {
@@ -37,8 +38,10 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
           ),
           if (_expanded)
             Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 4.0),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 4.0,
+                ),
                 height: min(widget.order.products.length * 20.0 + 16.0, 120),
                 child: ListView(
                   children: widget.order.products
@@ -55,7 +58,7 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
                               Text(
                                 ' ${prod.quantity}x \$${prod.price}',
                                 style: TextStyle(
-                                  // fontSize: 18,
+                                  fontSize: 18,
                                   color: Colors.grey,
                                 ),
                               )

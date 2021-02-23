@@ -50,13 +50,35 @@ class ProductItem extends StatelessWidget {
               ),
               color: Theme.of(context).accentColor,
               onPressed: () {
-                cart.itemInCart(product.id)
-                    ? cart.removeItem(product.id)
-                    : cart.addItem(
-                        productId: product.id,
-                        title: product.title,
-                        price: product.price,
-                      );
+                String snackText;
+
+                if (cart.itemInCart(product.id)) {
+                  snackText = '${product.title} has removed';
+                  cart.removeItem(product.id);
+                } else {
+                  snackText = '${product.title} has added to cart';
+                  cart.addItem(
+                    productId: product.id,
+                    title: product.title,
+                    price: product.price,
+                  );
+                }
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      snackText,
+                      textAlign: TextAlign.center,
+                    ),
+                    duration: Duration(seconds: 3),
+                    action: SnackBarAction(
+                      label: 'UNDO',
+                      onPressed: () {
+                        cart.removeSingleItem(product.id);
+                      },
+                    ),
+                  ),
+                );
               },
             ),
           ),
