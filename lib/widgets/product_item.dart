@@ -51,12 +51,15 @@ class ProductItem extends StatelessWidget {
               color: Theme.of(context).accentColor,
               onPressed: () {
                 String snackText;
+                String snackLabel;
 
                 if (cart.itemInCart(product.id)) {
                   snackText = '${product.title} has removed';
+                  snackLabel = ' ;( ';
                   cart.removeItem(product.id);
                 } else {
                   snackText = '${product.title} has added to cart';
+                  snackLabel = 'UNDO';
                   cart.addItem(
                     productId: product.id,
                     title: product.title,
@@ -72,7 +75,7 @@ class ProductItem extends StatelessWidget {
                     ),
                     duration: Duration(seconds: 3),
                     action: SnackBarAction(
-                      label: 'UNDO',
+                      label: snackLabel,
                       onPressed: () {
                         cart.removeSingleItem(product.id);
                       },
