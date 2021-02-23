@@ -11,8 +11,30 @@ class EditProductPage extends StatefulWidget {
 class _EditProductPageState extends State<EditProductPage> {
   final _priceFocusNode = FocusNode();
   final _descriptionFocusNode = FocusNode();
+  final _imageUrlFocusNode = FocusNode();
 
-  void dispose() {}
+  final _imageUrlController = TextEditingController();
+
+  @override
+  void initState() {
+    _imageUrlFocusNode.addListener(_updateImageUrl);
+    super.initState();
+  }
+
+  void dispose() {
+    _imageUrlFocusNode.removeListener(_updateImageUrl);
+    _priceFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+    _imageUrlFocusNode.dispose();
+    _imageUrlController.dispose();
+    super.dispose();
+  }
+
+  void _updateImageUrl() {
+    if (!_imageUrlFocusNode.hasFocus) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +67,30 @@ class _EditProductPageState extends State<EditProductPage> {
                 keyboardType: TextInputType.multiline,
                 focusNode: _descriptionFocusNode,
               ),
+              Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 8.0, right: 12.0),
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: Colors.grey),
+                  ),
+                  child: _imageUrlController.text.isEmpty
+                      ? Text('Enter a URL')
+                      : FittedBox(
+                          child: Image.network(_imageUrlController.text),
+                        ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(labelText: 'Image URL'),
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.done,
+                    controller: _imageUrlController,
+                    focusNode: _imageUrlFocusNode,
+                  ),
+                )
+              ]),
             ],
           ),
         ),
