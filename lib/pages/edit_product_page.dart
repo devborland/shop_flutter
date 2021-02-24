@@ -42,12 +42,20 @@ class _EditProductPageState extends State<EditProductPage> {
 
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
+      if (!_imageUrlController.text.startsWith('http') &&
+          !_imageUrlController.text.endsWith('.png') &&
+          !_imageUrlController.text.endsWith('.jpeg') &&
+          !_imageUrlController.text.endsWith('.jpg')) return;
+
       setState(() {});
     }
   }
 
   void _saveForm() {
-    _form.currentState.save();
+    if (_form.currentState.validate())
+      _form.currentState.save();
+    else
+      return null;
     print(_editedProduct.id);
     print(_editedProduct.title);
     print(_editedProduct.price);
@@ -88,6 +96,10 @@ class _EditProductPageState extends State<EditProductPage> {
                     imageUrl: _editedProduct.imageUrl,
                   );
                 },
+                validator: (value) {
+                  if (value.isEmpty) return 'Please enter a Title';
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Price'),
@@ -106,6 +118,15 @@ class _EditProductPageState extends State<EditProductPage> {
                     imageUrl: _editedProduct.imageUrl,
                   );
                 },
+                validator: (value) {
+                  if (value.isEmpty) return 'Please enter a Price';
+                  if (double.tryParse(value) == null)
+                    return 'Please enter a valid number';
+                  if (double.parse(value) <= 0)
+                    return 'Please enter a number greater than zero';
+
+                  return null;
+                },
               ),
               TextFormField(
                 decoration: InputDecoration(labelText: 'Description'),
@@ -120,6 +141,10 @@ class _EditProductPageState extends State<EditProductPage> {
                     description: value,
                     imageUrl: _editedProduct.imageUrl,
                   );
+                },
+                validator: (value) {
+                  if (value.isEmpty) return 'Please enter a Description';
+                  return null;
                 },
               ),
               Row(crossAxisAlignment: CrossAxisAlignment.end, children: [
@@ -154,6 +179,16 @@ class _EditProductPageState extends State<EditProductPage> {
                         description: _editedProduct.description,
                         imageUrl: value,
                       );
+                    },
+                    validator: (value) {
+                      if (value.isEmpty) return 'Please enter a URL';
+                      if (!value.startsWith('http'))
+                        return 'Please enter a valid URL';
+                      if (!value.endsWith('.png') &&
+                          !value.endsWith('.jpeg') &&
+                          !value.endsWith('.jpg'))
+                        return 'Enter a valid image URL';
+                      return null;
                     },
                   ),
                 )
