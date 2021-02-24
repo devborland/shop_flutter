@@ -3,12 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'product.dart';
 
 class Products with ChangeNotifier {
-  // bool _showFavoritesOnly = false;
-
   List<Product> get items {
-    // if (_showFavoritesOnly) {
-    //   return _items.where((item) => item.isFavorite).toList();
-    // }
     return [..._items];
   }
 
@@ -20,18 +15,7 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  // void showFavoritesOnly() {
-  //   _showFavoritesOnly = true;
-  //   notifyListeners();
-  // }
-
-  // void showAll() {
-  //   _showFavoritesOnly = false;
-  //   notifyListeners();
-  // }
-
   void addProduct(Product product) {
-    // _items.add(value);
     final newProduct = Product(
       id: DateTime.now().toString(),
       title: product.title,
@@ -42,6 +26,15 @@ class Products with ChangeNotifier {
     _items.add(newProduct);
 
     notifyListeners();
+  }
+
+  void updateProduct(String id, Product newProduct) {
+    final prodIndex = _items.indexWhere((prod) => prod.id == id);
+    if (prodIndex >= 0) {
+      _items[prodIndex] = newProduct;
+      notifyListeners();
+    } else
+      print('...no product with $id found');
   }
 
   List<Product> _items = [
