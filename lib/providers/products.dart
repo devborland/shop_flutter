@@ -37,6 +37,11 @@ class Products with ChangeNotifier {
       print('...no product with $id found');
   }
 
+  void deleteProduct(String id) {
+    _items.removeWhere((prod) => prod.id == id);
+    notifyListeners();
+  }
+
   List<Product> _items = [
     Product(
       id: 'p1',
