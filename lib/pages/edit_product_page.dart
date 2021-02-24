@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
+import '../providers/products.dart';
 
 class EditProductPage extends StatefulWidget {
   static const routeName = '/user-product-page';
@@ -42,7 +44,7 @@ class _EditProductPageState extends State<EditProductPage> {
 
   void _updateImageUrl() {
     if (!_imageUrlFocusNode.hasFocus) {
-      if (!_imageUrlController.text.startsWith('http') &&
+      if (!_imageUrlController.text.startsWith('https') &&
           !_imageUrlController.text.endsWith('.png') &&
           !_imageUrlController.text.endsWith('.jpeg') &&
           !_imageUrlController.text.endsWith('.jpg')) return;
@@ -52,15 +54,11 @@ class _EditProductPageState extends State<EditProductPage> {
   }
 
   void _saveForm() {
-    if (_form.currentState.validate())
-      _form.currentState.save();
-    else
-      return null;
-    print(_editedProduct.id);
-    print(_editedProduct.title);
-    print(_editedProduct.price);
-    print(_editedProduct.description);
-    print(_editedProduct.imageUrl);
+    if (!_form.currentState.validate()) return;
+
+    _form.currentState.save();
+    Provider.of<Products>(context, listen: false).addProduct(_editedProduct);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -182,7 +180,7 @@ class _EditProductPageState extends State<EditProductPage> {
                     },
                     validator: (value) {
                       if (value.isEmpty) return 'Please enter a URL';
-                      if (!value.startsWith('http'))
+                      if (!value.startsWith('https'))
                         return 'Please enter a valid URL';
                       if (!value.endsWith('.png') &&
                           !value.endsWith('.jpeg') &&
