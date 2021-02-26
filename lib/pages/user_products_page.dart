@@ -17,6 +17,7 @@ class UserProductsPage extends StatelessWidget {
         title: const Text('Your Products'),
         actions: [
           IconButton(
+            padding: const EdgeInsets.only(right: 16.0),
             icon: const Icon(Icons.add),
             onPressed: () {
               Navigator.of(context).pushNamed(EditProductPage.routeName);

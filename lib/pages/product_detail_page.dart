@@ -28,7 +28,7 @@ class ProductDetailPage extends StatelessWidget {
           children: <Widget>[
             Container(
               alignment: Alignment.center,
-              height: 300,
+              height: 480,
               width: double.infinity,
               child: Image.network(
                 loadedProduct.imageUrl,
