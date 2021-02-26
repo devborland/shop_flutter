@@ -17,22 +17,20 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
-  void addProduct(Product product) {
+  Future<void> addProduct(Product product) {
     print('Start Posting to DB');
     final url = Uri.parse(
         'https://my-shop-a5f0b-default-rtdb.firebaseio.com/products.json');
-    http
-        .post(
-      url,
-      body: json.encode(
-        {
-          'title': product.title,
-          'description': product.description,
-          'price': product.price,
-          'isFavorite': product.isFavorite,
-        },
-      ),
-    )
+    return http
+        .post(url,
+            body: json.encode(
+              {
+                'title': product.title,
+                'description': product.description,
+                'price': product.price,
+                'isFavorite': product.isFavorite,
+              },
+            ))
         .then((responce) {
       final newProduct = Product(
         id: json.decode(responce.body)['name'],
@@ -43,7 +41,6 @@ class Products with ChangeNotifier {
       );
 
       _items.add(newProduct);
-
       notifyListeners();
     });
   }
@@ -120,7 +117,7 @@ class Products with ChangeNotifier {
       title: 'A Picture',
       description: 'Whatever you want',
       price: 49.99,
-      imageUrl: 'https://picsum.photos/1980/1024',
+      imageUrl: 'https://picsum.photos/800',
     ),
   ];
 }
