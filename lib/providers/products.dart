@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'product.dart';
+import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
   List<Product> get items {
@@ -99,8 +100,25 @@ class Products with ChangeNotifier {
       print('...no product with $id found');
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
+  Future<void> deleteProduct(String id) async {
+    final url = Uri.parse(
+        'https://my-shop-a5f0b-default-rtdb.firebaseio.com/products/$id.json');
+
+    final existingProductIndex = _items.indexWhere((prod) => prod.id == id);
+    var existingProduct = _items[existingProductIndex];
+
+    existingProduct = null;
+    _items.removeAt(existingProductIndex);
+
+    final responce = await http.delete(url);
+    print(responce.statusCode);
+
+    if (responce.statusCode >= 400) {
+      _items.insert(existingProductIndex, existingProduct);
+      notifyListeners();
+      throw HttpException('Could not delete the product');
+    }
+
     notifyListeners();
   }
 
