@@ -34,7 +34,21 @@ class ProductItem extends StatelessWidget {
               icon: Icon(
                 product.isFavorite ? Icons.favorite : Icons.favorite_border,
               ),
-              onPressed: () => product.toggleFavoriteStatus(),
+              onPressed: () async {
+                try {
+                  await product.toggleFavoriteStatus();
+                } catch (_) {
+                  ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Could not toggle Favorite',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ),
           title: Text(
@@ -55,7 +69,7 @@ class ProductItem extends StatelessWidget {
 
                 if (cart.itemInCart(product.id)) {
                   snackText = '${product.title} has removed';
-                  snackLabel = ' ;( ';
+                  snackLabel = 're-Add';
                   cart.removeItem(product.id);
                 } else {
                   snackText = '${product.title} has added to cart';

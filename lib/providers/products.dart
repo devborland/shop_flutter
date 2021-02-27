@@ -30,7 +30,7 @@ class Products with ChangeNotifier {
           Product(
             id: prodId,
             title: prodData['title'],
-            price: prodData['price'],
+            price: double.parse(prodData['price'].toString()),
             description: prodData['description'],
             imageUrl: prodData['imageUrl'],
             isFavorite: prodData['isFavorite'],
@@ -111,7 +111,6 @@ class Products with ChangeNotifier {
     _items.removeAt(existingProductIndex);
 
     final responce = await http.delete(url);
-    print(responce.statusCode);
 
     if (responce.statusCode >= 400) {
       _items.insert(existingProductIndex, existingProduct);
