@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../widgets/app_drawer_widget.dart';
 
 import '../providers/cart.dart';
+import '../providers/products.dart';
+import '../widgets/app_drawer_widget.dart';
 import '../widgets/badge.dart';
 import '../widgets/product_grid.dart';
 import 'cart_page.dart';
@@ -19,6 +20,25 @@ class ProductsOverviesPage extends StatefulWidget {
 
 class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
   bool _showFavoritesOnly = false;
+  bool _isInit = true;
+
+  @override
+  void initState() {
+    // Provider.of<Products>(context).fetchProducts();//Wont work
+    // Future.delayed(Duration.zero).then((value) =>
+    //     Provider.of<Products>(context, listen: false).fetchProducts());
+    super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) Provider.of<Products>(context).fetchProducts();
+
+    _isInit = false;
+
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

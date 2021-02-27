@@ -17,6 +17,17 @@ class Products with ChangeNotifier {
     return _items.firstWhere((prod) => prod.id == id);
   }
 
+  Future<void> fetchProducts() async {
+    try {
+      final url = Uri.parse(
+          'https://my-shop-a5f0b-default-rtdb.firebaseio.com/products.json');
+      final responce = await http.get(url);
+      print(json.decode(responce.body));
+    } catch (error) {
+      throw error;
+    }
+  }
+
   Future<void> addProduct(Product product) async {
     print('Start Posting to DB');
     try {
@@ -28,6 +39,7 @@ class Products with ChangeNotifier {
               'title': product.title,
               'description': product.description,
               'price': product.price,
+              'imageUrl': product.imageUrl,
               'isFavorite': product.isFavorite,
             },
           ));
@@ -92,33 +104,33 @@ class Products with ChangeNotifier {
       imageUrl:
           'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
     ),
-    Product(
-      id: 'p5',
-      title: 'A Picture',
-      description: 'Whatever you want',
-      price: 49.99,
-      imageUrl: 'https://picsum.photos/400',
-    ),
-    Product(
-      id: 'p6',
-      title: 'A Picture',
-      description: 'Whatever you want',
-      price: 49.99,
-      imageUrl: 'https://picsum.photos/420',
-    ),
-    Product(
-      id: 'p7',
-      title: 'A Picture',
-      description: 'Whatever you want',
-      price: 49.99,
-      imageUrl: 'https://picsum.photos/421',
-    ),
-    Product(
-      id: 'p8',
-      title: 'A Picture',
-      description: 'Whatever you want',
-      price: 49.99,
-      imageUrl: 'https://picsum.photos/800',
-    ),
+    // Product(
+    //   id: 'p5',
+    //   title: 'A Picture',
+    //   description: 'Whatever you want',
+    //   price: 49.99,
+    //   imageUrl: 'https://picsum.photos/400',
+    // ),
+    // Product(
+    //   id: 'p6',
+    //   title: 'A Picture',
+    //   description: 'Whatever you want',
+    //   price: 49.99,
+    //   imageUrl: 'https://picsum.photos/420',
+    // ),
+    // Product(
+    //   id: 'p7',
+    //   title: 'A Picture',
+    //   description: 'Whatever you want',
+    //   price: 49.99,
+    //   imageUrl: 'https://picsum.photos/421',
+    // ),
+    // Product(
+    //   id: 'p8',
+    //   title: 'A Picture',
+    //   description: 'Whatever you want',
+    //   price: 49.99,
+    //   imageUrl: 'https://picsum.photos/800',
+    // ),
   ];
 }
