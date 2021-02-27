@@ -21,6 +21,7 @@ class ProductsOverviesPage extends StatefulWidget {
 class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
   bool _showFavoritesOnly = false;
   bool _isInit = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -31,8 +32,17 @@ class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
   }
 
   @override
-  void didChangeDependencies() {
-    if (_isInit) Provider.of<Products>(context).fetchProducts();
+  void didChangeDependencies() async {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+
+      await Provider.of<Products>(context).fetchProducts();
+    }
+    setState(() {
+      _isLoading = false;
+    });
 
     _isInit = false;
 
@@ -84,7 +94,9 @@ class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
           )
         ],
       ),
-      body: ProductsGrid(_showFavoritesOnly),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ProductsGrid(_showFavoritesOnly),
       drawer: AppDrawerWidget(),
     );
   }

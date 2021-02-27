@@ -22,7 +22,22 @@ class Products with ChangeNotifier {
       final url = Uri.parse(
           'https://my-shop-a5f0b-default-rtdb.firebaseio.com/products.json');
       final responce = await http.get(url);
-      print(json.decode(responce.body));
+      final extractedData = json.decode(responce.body) as Map<String, dynamic>;
+      final List<Product> loadedProducts = [];
+      extractedData.forEach((prodId, prodData) {
+        loadedProducts.add(
+          Product(
+            id: prodId,
+            title: prodData['title'],
+            price: prodData['price'],
+            description: prodData['description'],
+            imageUrl: prodData['imageUrl'],
+            isFavorite: prodData['isFavorite'],
+          ),
+        );
+        _items = loadedProducts;
+        notifyListeners();
+      });
     } catch (error) {
       throw error;
     }
