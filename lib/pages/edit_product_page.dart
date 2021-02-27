@@ -92,12 +92,10 @@ class _EditProductPageState extends State<EditProductPage> {
     setState(() => _isLoading = true);
 
     if (_editedProduct.id != null) {
-      Provider.of<Products>(context, listen: false).updateProduct(
+      await Provider.of<Products>(context, listen: false).updateProduct(
         _editedProduct.id,
         _editedProduct,
       );
-
-      setState(() => _isLoading = false);
 
       Navigator.of(context).pop();
     } else
@@ -118,13 +116,12 @@ class _EditProductPageState extends State<EditProductPage> {
                 )
               ]),
         );
-        print('After Error Alert Dialog1');
-        setState(() => _isLoading = false);
+        print('After Error Alert Dialog');
         Navigator.of(context).pop();
       } finally {
-        print('Without Error Alert Dialog1');
-        setState(() => _isLoading = false);
+        print('Without Error Alert Dialog');
       }
+    setState(() => _isLoading = false);
   }
 
   @override
