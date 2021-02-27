@@ -85,7 +85,7 @@ class _EditProductPageState extends State<EditProductPage> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     if (!_form.currentState.validate()) return;
 
     _form.currentState.save();
@@ -101,10 +101,12 @@ class _EditProductPageState extends State<EditProductPage> {
 
       Navigator.of(context).pop();
     } else
-      Provider.of<Products>(context, listen: false)
-          .addProduct(_editedProduct)
-          .catchError((error) {
-        return showDialog(
+      try {
+        await Provider.of<Products>(context, listen: false)
+            .addProduct(_editedProduct);
+        Navigator.of(context).pop();
+      } catch (error) {
+        await showDialog(
           context: context,
           builder: (ctx) => AlertDialog(
               title: Text('An error occurred!'),
@@ -115,13 +117,14 @@ class _EditProductPageState extends State<EditProductPage> {
                   child: Text('OK'),
                 )
               ]),
-        ).then((_) {
-          print('After Alert Dialog1');
-          setState(() => _isLoading = false);
-          Navigator.of(context).pop();
-        });
-      });
-    // Navigator.of(context).pop();
+        );
+        print('After Error Alert Dialog1');
+        setState(() => _isLoading = false);
+        Navigator.of(context).pop();
+      } finally {
+        print('Without Error Alert Dialog1');
+        setState(() => _isLoading = false);
+      }
   }
 
   @override
