@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../providers/orders.dart';
 
 import '../providers/cart.dart';
 import '../providers/products.dart';
@@ -37,8 +38,8 @@ class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
       setState(() {
         _isLoading = true;
       });
-
-      await Provider.of<Products>(context).fetchProducts();
+      await Provider.of<Products>(context, listen: false).fetchProducts();
+      await Provider.of<Orders>(context, listen: false).fetchOrders();
     }
     setState(() {
       _isLoading = false;

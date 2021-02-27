@@ -23,6 +23,7 @@ class Products with ChangeNotifier {
       final url = Uri.parse(
           'https://my-shop-a5f0b-default-rtdb.firebaseio.com/products.json');
       final responce = await http.get(url);
+
       final extractedData = json.decode(responce.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
