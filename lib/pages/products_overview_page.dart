@@ -35,11 +35,7 @@ class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
         await Provider.of<Orders>(context, listen: false).fetchOrders();
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-            '$error',
-            textAlign: TextAlign.center,
-          )),
+          SnackBar(content: Text('$error', textAlign: TextAlign.center)),
         );
       }
     }

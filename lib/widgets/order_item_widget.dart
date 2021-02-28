@@ -19,11 +19,18 @@ class _OrderItemWidgetState extends State<OrderItemWidget> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(12.0),
+      color: Colors.white60,
+      margin: EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
           ListTile(
-            title: Text('\$${widget.order.amount}'),
+            title: Text(
+              '\$${widget.order.amount}',
+              style: TextStyle(
+                fontSize: 14.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             subtitle: Text(
               DateFormat('d-MM-yyyy  hh:mm').format(widget.order.dateTime),
             ),
