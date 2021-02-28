@@ -6,6 +6,7 @@ import 'product.dart';
 import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
+  List<Product> _items = [];
   List<Product> get items {
     return [..._items];
   }
@@ -25,6 +26,9 @@ class Products with ChangeNotifier {
       final responce = await http.get(url);
 
       final extractedData = json.decode(responce.body) as Map<String, dynamic>;
+
+      if (extractedData == null) return;
+
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
         loadedProducts.add(
@@ -41,7 +45,7 @@ class Products with ChangeNotifier {
         notifyListeners();
       });
     } catch (error) {
-      throw error;
+      throw HttpException('Could not fetch products');
     }
   }
 
@@ -122,7 +126,7 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  List<Product> _items = [
+  /* [
     Product(
       id: 'p1',
       title: 'Red Shirt',
@@ -183,4 +187,5 @@ class Products with ChangeNotifier {
     //   imageUrl: 'https://picsum.photos/800',
     // ),
   ];
+  */
 }

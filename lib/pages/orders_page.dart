@@ -15,12 +15,14 @@ class OrdersPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Your Orders'),
       ),
-      body: ListView.builder(
-        itemCount: ordersData.orders.length,
-        itemBuilder: (ctx, i) {
-          return OrderItemWidget(ordersData.orders[i]);
-        },
-      ),
+      body: ordersData.orders.length == 0
+          ? Center(child: Text('No Orders Yet'))
+          : ListView.builder(
+              itemCount: ordersData.orders.length,
+              itemBuilder: (ctx, i) {
+                return OrderItemWidget(ordersData.orders[i]);
+              },
+            ),
       drawer: AppDrawerWidget(),
     );
   }

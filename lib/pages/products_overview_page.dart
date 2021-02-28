@@ -25,21 +25,23 @@ class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
   bool _isLoading = false;
 
   @override
-  void initState() {
-    // Provider.of<Products>(context).fetchProducts();//Wont work
-    // Future.delayed(Duration.zero).then((value) =>
-    //     Provider.of<Products>(context, listen: false).fetchProducts());
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() async {
     if (_isInit) {
       setState(() {
         _isLoading = true;
       });
-      await Provider.of<Products>(context, listen: false).fetchProducts();
-      await Provider.of<Orders>(context, listen: false).fetchOrders();
+      try {
+        await Provider.of<Products>(context, listen: false).fetchProducts();
+        await Provider.of<Orders>(context, listen: false).fetchOrders();
+      } catch (error) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+              content: Text(
+            '$error',
+            textAlign: TextAlign.center,
+          )),
+        );
+      }
     }
     setState(() {
       _isLoading = false;

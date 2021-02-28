@@ -13,35 +13,32 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
+    final timestamp = DateTime.now();
     final ordersUrl = Uri.parse(
         'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders.json');
     final orderResponce = await http.post(ordersUrl,
         body: json.encode(
           {
             'amount': total,
-            'dateTime': DateFormat('dd-MM-yyyy  hh:mm').format(DateTime.now()),
+            'dateTime': DateFormat('dd-MM-yyyy hh:mm').format(timestamp),
+            // 'dateTime': timestamp.toIso8601String(),
+            'products': cartProducts
+                .map((cartProd) => {
+                      'title': cartProd.title,
+                      'quantity': cartProd.quantity,
+                      'price': cartProd.price,
+                    })
+                .toList(),
           },
         ));
 
     final orderId = json.decode(orderResponce.body)['name'];
-    final orderItemsUrl = Uri.parse(
-        'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders/$orderId/orderItems.json');
 
-    cartProducts.forEach((prod) async {
-      await http.post(orderItemsUrl,
-          body: json.encode({
-            'prodTitle': prod.title,
-            'prodPrice': prod.price,
-            'prodQuantity': prod.quantity,
-          }));
-    });
-
-    _orders.insert(
-      0,
+    _orders.add(
       OrderItem(
-        amount: total,
-        dateTime: DateTime.now(),
         id: orderId,
+        amount: total,
+        dateTime: timestamp,
         products: cartProducts,
       ),
     );
@@ -49,51 +46,48 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchOrders() async {
+    List<OrderItem> loadedOrders = [];
+    DateFormat format = DateFormat("dd-MM-yyyy hh:mm");
+
     final ordersUrl = Uri.parse(
         'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders.json');
 
     try {
-      //..
-      final ordersResponce = await http.get(ordersUrl);
+      final responce = await http.get(ordersUrl);
 
-      final orderData =
-          json.decode(ordersResponce.body) as Map<String, dynamic>;
-      final orderIds = orderData.keys;
+      final extractedData = json.decode(responce.body) as Map<String, dynamic>;
 
-      List<OrderItem> loadedOrders = [];
-      orderIds.forEach((orderId) {
-        List<CartItem> cartItems = [];
+      if (extractedData == null) return;
 
-        final orderItemsId = orderData[orderId]['orderItems'].keys;
+      extractedData.forEach((orderId, orderData) {
+        var orderAmount = extractedData[orderId]['amount'];
+        var orderDateTime = format.parse(extractedData[orderId]['dateTime']);
+        List<CartItem> orderProducts = [];
 
-        orderItemsId.forEach((orderItemId) {
-          cartItems.add(CartItem(
-            id: orderItemId,
-            title: orderData[orderId]['orderItems'][orderItemId]['prodTitle'],
-            price: orderData[orderId]['orderItems'][orderItemId]['prodPrice'],
-            quantity: orderData[orderId]['orderItems'][orderItemId]
-                ['prodQuantity'],
-          ));
+        orderData.forEach((key, value) {
+          if (key == 'products') {
+            value.forEach((product) {
+              orderProducts.add(CartItem(
+                  id: product['id'],
+                  price: product['price'],
+                  quantity: product['quantity'],
+                  title: product['title']));
+            });
+          }
         });
 
-        DateFormat format = DateFormat("dd-MM-yyyy  hh:mm");
-        loadedOrders.add(
-          OrderItem(
-            amount: orderData[orderId]['amount'],
-            dateTime: format.parse(orderData[orderId]['dateTime']),
-            id: orderId,
-            products: cartItems,
-          ),
-        );
+        loadedOrders.add(OrderItem(
+          id: orderId,
+          amount: orderAmount,
+          dateTime: orderDateTime,
+          products: orderProducts,
+        ));
       });
-      _orders = loadedOrders;
-    } catch (e) {
-      //..
-      print('No orders');
+
+      _orders = loadedOrders.reversed.toList();
+    } catch (error) {
+      print(error);
     }
-    _orders.forEach((element) {
-      print(element.id);
-    });
     notifyListeners();
   }
 }
@@ -105,9 +99,9 @@ class OrderItem {
   final DateTime dateTime;
 
   OrderItem({
+    @required this.id,
     @required this.amount,
     @required this.dateTime,
-    @required this.id,
     @required this.products,
   });
 }
