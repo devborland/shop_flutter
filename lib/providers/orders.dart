@@ -60,21 +60,13 @@ class Orders with ChangeNotifier {
           json.decode(ordersResponce.body) as Map<String, dynamic>;
       final orderIds = orderData.keys;
 
+      List<OrderItem> loadedOrders = [];
       orderIds.forEach((orderId) {
         List<CartItem> cartItems = [];
-        // print(orderId);
-        // print(orderData[orderId]['dateTime']);
-        // print(orderData[orderId]['amount']);
 
         final orderItemsId = orderData[orderId]['orderItems'].keys;
 
         orderItemsId.forEach((orderItemId) {
-          // print(orderItemId);
-          // print(orderData[orderId]['orderItems'][orderItemId]['prodTitle']);
-          // print(orderData[orderId]['orderItems'][orderItemId]['prodPrice']);
-          // print(orderData[orderId]['orderItems'][orderItemId]['prodQuantity']);
-
-          // print('-------------');
           cartItems.add(CartItem(
             id: orderItemId,
             title: orderData[orderId]['orderItems'][orderItemId]['prodTitle'],
@@ -83,24 +75,26 @@ class Orders with ChangeNotifier {
                 ['prodQuantity'],
           ));
         });
-        //TODO DateFormating
 
-        // DateFormat format = DateFormat("dd-MM-yyyy hh:mm");
-        // print(format.parse(orderData[orderId]['dateTime']));
-        _orders.add(
+        DateFormat format = DateFormat("dd-MM-yyyy  hh:mm");
+        loadedOrders.add(
           OrderItem(
             amount: orderData[orderId]['amount'],
-            // dateTime: format.parse(orderData[orderId]['dateTime']),
-            dateTime: DateTime.now(),
+            dateTime: format.parse(orderData[orderId]['dateTime']),
             id: orderId,
             products: cartItems,
           ),
         );
       });
+      _orders = loadedOrders;
     } catch (e) {
       //..
       print('No orders');
     }
+    _orders.forEach((element) {
+      print(element.id);
+    });
+    notifyListeners();
   }
 }
 
