@@ -10,6 +10,7 @@ import 'providers/cart.dart';
 import 'pages/product_detail_page.dart';
 import 'pages/products_overview_page.dart';
 import 'providers/products.dart';
+import 'pages/auth_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -32,13 +33,15 @@ class MyApp extends StatelessWidget {
             primaryColor: Color.fromRGBO(90, 70, 150, 1),
             accentColor: Color.fromRGBO(230, 140, 90, 1),
             fontFamily: 'Lato'),
-        home: ProductsOverviesPage(),
+        home: AuthPage(),
         routes: {
           ProductDetailPage.routeName: (ctx) => ProductDetailPage(),
           CartPage.routeName: (ctx) => CartPage(),
           OrdersPage.routeName: (ctx) => OrdersPage(),
           UserProductsPage.routeName: (ctx) => UserProductsPage(),
           EditProductPage.routeName: (ctx) => EditProductPage(),
+          AuthPage.routeName: (ctx) => AuthPage(),
+          ProductsOverviewsPage.routeName: (ctx) => ProductDetailPage(),
         },
       ),
     );

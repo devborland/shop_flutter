@@ -134,6 +134,7 @@ class _EditProductPageState extends State<EditProductPage> {
             icon: Icon(Icons.save),
             onPressed: _saveForm,
           ),
+          SizedBox(width: 16.0),
         ],
       ),
       body: _isLoading

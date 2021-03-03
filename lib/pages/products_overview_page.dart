@@ -14,12 +14,13 @@ enum FiltersOptions {
   All,
 }
 
-class ProductsOverviesPage extends StatefulWidget {
+class ProductsOverviewsPage extends StatefulWidget {
+  static const routeName = '/product-overviews-page';
   @override
-  _ProductsOverviesPageState createState() => _ProductsOverviesPageState();
+  _ProductsOverviewsPageState createState() => _ProductsOverviewsPageState();
 }
 
-class _ProductsOverviesPageState extends State<ProductsOverviesPage> {
+class _ProductsOverviewsPageState extends State<ProductsOverviewsPage> {
   bool _showFavoritesOnly = false;
   bool _isInit = true;
   bool _isLoading = false;
