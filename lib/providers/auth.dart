@@ -10,6 +10,19 @@ class Auth with ChangeNotifier {
   DateTime _expiryDate;
   String _userId;
 
+  bool get isAuth {
+    return token != null;
+  }
+
+  String get token {
+    if (_expiryDate != null &&
+        _expiryDate.isAfter(DateTime.now()) &&
+        _token != null) {
+      return _token;
+    }
+    return null;
+  }
+
   Future<void> _authenticate(
     String email,
     String password,
@@ -30,9 +43,14 @@ class Auth with ChangeNotifier {
 
       final responceData = json.decode(responce.body);
       if (responceData['error'] != null) {
-        // print(responceData['error']['message'] + ' from auth.dart');
         throw HttpException(responceData['error']['message']);
       }
+      _token = responceData['idToken'];
+      _userId = responceData['localId'];
+      _expiryDate = DateTime.now().add(
+        Duration(seconds: int.parse(responceData['expiresIn'])),
+      );
+      notifyListeners();
     } catch (error) {
       throw error;
     }

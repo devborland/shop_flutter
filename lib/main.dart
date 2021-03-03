@@ -28,24 +28,26 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => Cart()),
         ChangeNotifierProvider(create: (ctx) => Orders()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'MyShop',
-        theme: ThemeData(
-            primarySwatch: Colors.red,
-            primaryColor: Color.fromRGBO(90, 70, 150, 1),
-            accentColor: Color.fromRGBO(230, 140, 90, 1),
-            fontFamily: 'Lato'),
-        home: AuthPage(),
-        routes: {
-          ProductDetailPage.routeName: (ctx) => ProductDetailPage(),
-          CartPage.routeName: (ctx) => CartPage(),
-          OrdersPage.routeName: (ctx) => OrdersPage(),
-          UserProductsPage.routeName: (ctx) => UserProductsPage(),
-          EditProductPage.routeName: (ctx) => EditProductPage(),
-          AuthPage.routeName: (ctx) => AuthPage(),
-          ProductsOverviewsPage.routeName: (ctx) => ProductDetailPage(),
-        },
+      child: Consumer<Auth>(
+        builder: (ctx, auth, _) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'MyShop',
+          theme: ThemeData(
+              primarySwatch: Colors.red,
+              primaryColor: Color.fromRGBO(90, 70, 150, 1),
+              accentColor: Color.fromRGBO(230, 140, 90, 1),
+              fontFamily: 'Lato'),
+          home: auth.isAuth ? ProductsOverviewsPage() : AuthPage(),
+          routes: {
+            ProductDetailPage.routeName: (ctx) => ProductDetailPage(),
+            CartPage.routeName: (ctx) => CartPage(),
+            OrdersPage.routeName: (ctx) => OrdersPage(),
+            UserProductsPage.routeName: (ctx) => UserProductsPage(),
+            EditProductPage.routeName: (ctx) => EditProductPage(),
+            AuthPage.routeName: (ctx) => AuthPage(),
+            ProductsOverviewsPage.routeName: (ctx) => ProductDetailPage(),
+          },
+        ),
       ),
     );
   }
