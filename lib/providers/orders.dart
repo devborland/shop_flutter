@@ -8,8 +8,9 @@ import 'cart.dart';
 class Orders with ChangeNotifier {
   List<OrderItem> _orders = [];
   final String authToken;
+  final String userId;
 
-  Orders(this._orders, this.authToken);
+  Orders(this._orders, this.userId, this.authToken);
 
   List<OrderItem> get orders {
     return [..._orders];
@@ -18,7 +19,7 @@ class Orders with ChangeNotifier {
   Future<void> addOrder(List<CartItem> cartProducts, double total) async {
     final timestamp = DateTime.now();
     final ordersUrl = Uri.parse(
-        'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders.json?auth=$authToken');
+        'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
     final orderResponce = await http.post(ordersUrl,
         body: json.encode(
           {
@@ -53,7 +54,7 @@ class Orders with ChangeNotifier {
     DateFormat format = DateFormat("dd-MM-yyyy hh:mm");
 
     final ordersUrl = Uri.parse(
-        'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders.json?auth=$authToken');
+        'https://my-shop-a5f0b-default-rtdb.firebaseio.com/orders/$userId.json?auth=$authToken');
 
     try {
       final responce = await http.get(ordersUrl);
