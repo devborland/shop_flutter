@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+
 import '../models/http_exception.dart';
 
 class Product with ChangeNotifier {
