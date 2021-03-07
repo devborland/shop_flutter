@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../pages/orders_page.dart';
 import '../pages/user_products_page.dart';
+import '../providers/auth.dart';
 
 class AppDrawerWidget extends StatelessWidget {
   @override
@@ -31,6 +33,12 @@ class AppDrawerWidget extends StatelessWidget {
             title: Text('Manage Products'),
             onTap: () =>
                 Navigator.of(context).pushNamed(UserProductsPage.routeName),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.logout),
+            title: Text('Log Out'),
+            onTap: () => Provider.of<Auth>(context, listen: false).logOut(),
           ),
         ],
       ),
