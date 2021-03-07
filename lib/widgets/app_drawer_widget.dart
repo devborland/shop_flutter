@@ -38,7 +38,11 @@ class AppDrawerWidget extends StatelessWidget {
           ListTile(
             leading: Icon(Icons.logout),
             title: Text('Log Out'),
-            onTap: () => Provider.of<Auth>(context, listen: false).logOut(),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacementNamed('/');
+              Provider.of<Auth>(context, listen: false).logOut();
+            },
           ),
         ],
       ),

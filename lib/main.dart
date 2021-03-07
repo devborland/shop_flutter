@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'providers/products.dart';
 import 'providers/auth.dart';
-import 'providers/orders.dart';
 import 'providers/cart.dart';
+import 'providers/orders.dart';
+import 'providers/products.dart';
 
-import 'pages/edit_product_page.dart';
-import 'pages/user_products_page.dart';
+import 'pages/auth_page.dart';
 import 'pages/cart_page.dart';
+import 'pages/edit_product_page.dart';
 import 'pages/orders_page.dart';
 import 'pages/product_detail_page.dart';
 import 'pages/products_overview_page.dart';
-import 'pages/auth_page.dart';
+import 'pages/splash_page.dart';
+import 'pages/user_products_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -48,10 +49,19 @@ class MyApp extends StatelessWidget {
           title: 'MyShop',
           theme: ThemeData(
               primarySwatch: Colors.red,
-              primaryColor: Color.fromRGBO(90, 70, 150, 1),
+              primaryColor: Color.fromRGBO(120, 70, 150, 1),
               accentColor: Color.fromRGBO(230, 140, 90, 1),
               fontFamily: 'Lato'),
-          home: auth.isAuth ? ProductsOverviewsPage() : AuthPage(),
+          home: auth.isAuth
+              ? ProductsOverviewsPage()
+              : FutureBuilder(
+                  future: auth.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) =>
+                      authResultSnapshot.connectionState ==
+                              ConnectionState.waiting
+                          ? SplashPage()
+                          : AuthPage(),
+                ),
           routes: {
             ProductDetailPage.routeName: (ctx) => ProductDetailPage(),
             CartPage.routeName: (ctx) => CartPage(),
