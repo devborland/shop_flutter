@@ -26,6 +26,11 @@ class AppDrawerWidget extends StatelessWidget {
             leading: Icon(Icons.payment),
             title: Text('Orders'),
             onTap: () => Navigator.of(context).pushNamed(OrdersPage.routeName),
+            // onTap: () => Navigator.of(context).pushReplacement(
+            //   CustomRoute(
+            //     builder: (ctx) => OrdersPage(),
+            //   ),
+            // ),
           ),
           Divider(),
           ListTile(
